@@ -20,7 +20,7 @@ export class Covid19ListComponent implements OnInit {
     const multipleRequisition = zip(
       this.covid19Service.getStatisticsCovid19ByCountry('mexico'),
       this.covid19Service.getStatisticsCovid19ByCountry('south-africa'),
-      this.covid19Service.getStatisticsCovid19ByCountry('france'),
+      this.covid19Service.getStatisticsCovid19ByCountry('mozambique'),
       this.covid19Service.getStatisticsCovid19ByCountry('cuba'),
       this.covid19Service.getStatisticsCovid19ByCountry('egypt'),
       this.covid19Service.getStatisticsCovid19ByCountry('peru'),

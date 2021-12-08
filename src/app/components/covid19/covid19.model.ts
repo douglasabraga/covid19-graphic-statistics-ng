@@ -5,5 +5,5 @@ export class Covid19 {
     // mortos
     deaths!: number;
     // curados
-    Recovered!: number;
+    recovered!: number;
 }
