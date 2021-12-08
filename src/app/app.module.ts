@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent } from './components/template/menu/menu.component';
 import { FooterComponent } from './components/template/footer/footer.component';
+import { Covid19Module } from './components/covid19/covid19.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FooterComponent } from './components/template/footer/footer.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    Covid19Module
   ],
   providers: [],
   bootstrap: [AppComponent]
