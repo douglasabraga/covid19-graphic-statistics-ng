@@ -17,6 +17,18 @@ export class Covid19ListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.onSearch() 
+    // this.covid19Service.getStatisticsCovid19ByCountry('mexico')
+    //   .subscribe(
+    //     (v: Covid19[]) => {
+    //       this.covid19 = v  
+    //       console.log(v)
+    //       console.log(this.covid19)
+    //     }
+    //   )
+  }
+
+  onSearch() {
     const multipleRequisition = zip(
       this.covid19Service.getStatisticsCovid19ByCountry('mexico'),
       this.covid19Service.getStatisticsCovid19ByCountry('south-africa'),
@@ -27,7 +39,10 @@ export class Covid19ListComponent implements OnInit {
       this.covid19Service.getStatisticsCovid19ByCountry('canada'))
 
     multipleRequisition.subscribe({
-      next: (v) => console.log(v),
+      next: (v) => {
+        console.log(v)
+        this.covid19.push(...v.map(item => item[0]))
+      },
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     })

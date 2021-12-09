@@ -1,24 +1,46 @@
-<div class="container main-container">
-
-    <div class="row text-center">
-        
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Country</th>
-                    <th scope="col">Confirmed</th>
-                    <th scope="col">Deaths</th>
-                    <th scope="col">Recovered</th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let country of covid19">
-                  <tr>
-                    <td>{{ country.country }}</td>
-                    <td>{{ country.confirmed }}</td>
-                    <td>{{ country.deaths }}</td>
-                    <td>{{ country.recovered }}</td>
-                  </tr>
-                </tbody>
-              </table>
+<div class="container">
+  <br /><br /><br />
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12 col-lg-10">
+      <div class="card ">
+        <div class="card-body row no-gutters align-items-center">
+          <label>Filter By Date:</label>
+          <div class="col">
+            <input class="form-control form-control-lg form-control-borderless ml-2" type="date">
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-lg btn-success ml-4" (click)="onSearch()">Search</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12 col-lg-10">
+      <div class="card mt-3 p-5">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped table-sm">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">Country</th>
+                <th scope="col" class="text-center">Confirmed</th>
+                <th scope="col" class="text-center">Deaths</th>
+                <th scope="col" class="text-center">Recovered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let country of covid19">
+                <td class="text-center">{{ country.Country }}</td>
+                <td class="text-center">{{ country.Confirmed }}</td>
+                <td class="text-center">{{ country.Deaths }}</td>
+                <td class="text-center">{{ country.Recovered }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
