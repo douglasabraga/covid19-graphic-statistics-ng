@@ -1,32 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Covid19Service } from '../services/covid19.service';
 import { Covid19 } from '../covid19.model'
-import { zip } from 'rxjs';
+import { Subscription, zip } from 'rxjs';
 
 @Component({
   selector: 'app-covid19-list',
   templateUrl: './covid19-list.component.html',
   styleUrls: ['./covid19-list.component.scss']
 })
-export class Covid19ListComponent implements OnInit {
+export class Covid19ListComponent implements OnInit, OnDestroy {
 
-  public covid19: Covid19[]
+  public covid19: Covid19[] = []
+  private subscription: Subscription;
 
-  constructor(private covid19Service: Covid19Service) {
-    this.covid19 = []
-  }
+  constructor(private covid19Service: Covid19Service) { }
 
-  ngOnInit(): void {
-    // this.onSearch() 
-    // this.covid19Service.getStatisticsCovid19ByCountry('mexico')
-    //   .subscribe(
-    //     (v: Covid19[]) => {
-    //       this.covid19 = v  
-    //       console.log(v)
-    //       console.log(this.covid19)
-    //     }
-    //   )
-  }
+  ngOnInit(): void { }
 
   onSearch() {
     const multipleRequisition = zip(
@@ -38,7 +27,7 @@ export class Covid19ListComponent implements OnInit {
       this.covid19Service.getStatisticsCovid19ByCountry('peru'),
       this.covid19Service.getStatisticsCovid19ByCountry('canada'))
 
-    multipleRequisition.subscribe({
+    this.subscription = multipleRequisition.subscribe({
       next: (v) => {
         console.log(v)
         this.covid19.push(...v.map(item => item[0]))
@@ -46,6 +35,10 @@ export class Covid19ListComponent implements OnInit {
       error: (e) => console.error(e),
       complete: () => console.info('complete')
     })
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
 }
