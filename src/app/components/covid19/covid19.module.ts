@@ -8,8 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
     Covid19ListComponent,
   ],
   imports: [
-    CommonModule,
-    HttpClientModule
+    CommonModule
   ],
   providers:[]
 })

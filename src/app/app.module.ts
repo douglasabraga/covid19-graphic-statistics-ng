@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent } from './components/template/menu/menu.component';
 import { FooterComponent } from './components/template/footer/footer.component';
 import { Covid19Module } from './components/covid19/covid19.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { Covid19Module } from './components/covid19/covid19.module';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    Covid19Module
+    Covid19Module,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
