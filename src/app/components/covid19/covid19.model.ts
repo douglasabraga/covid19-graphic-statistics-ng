@@ -1,9 +1,6 @@
-export class Covid19 {
-    country!: string;
-    // infectados
-    confirmed!: number;
-    // mortos
-    deaths!: number;
-    // curados
-    recovered!: number;
+export interface Covid19 {
+    Country: string;
+    Confirmed: number;
+    Deaths: number;
+    Recovered: number;
 }
