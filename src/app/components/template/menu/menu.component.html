@@ -5,11 +5,11 @@
   </button>
   <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" [routerLink]="['/home']">List</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Graphic</a>
+        <a class="nav-link" [routerLink]="['/graphic']">Graphic</a>
       </li>
     </ul>
   </div>

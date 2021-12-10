@@ -8,6 +8,7 @@ import { MenuComponent } from './components/template/menu/menu.component';
 import { FooterComponent } from './components/template/footer/footer.component';
 import { Covid19Module } from './components/covid19/covid19.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     NgbModule,
     Covid19Module,
-    HttpClientModule
+    HttpClientModule,
+    // FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

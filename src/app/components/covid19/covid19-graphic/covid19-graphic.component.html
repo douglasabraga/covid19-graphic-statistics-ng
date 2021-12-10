@@ -1,0 +1,28 @@
+<div class="container">
+  <br><br><br>
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12 col-lg-10">
+      <div class="card ">
+        <div class="card-body row no-gutters align-items-center">
+          <label>Filter By Date:</label>
+          <div class="col">
+            <input class="form-control form-control-sm form-control-borderless ml-2" [(ngModel)]="filter.Date"
+              type="date" #inputDate>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-sm btn-success ml-4" (click)="onSearch()">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12 col-lg-10">
+      <div class="card mt-3 p-5">
+        <canvas #canvasGraph></canvas>
+      </div>
+    </div>
+  </div>
+</div>
