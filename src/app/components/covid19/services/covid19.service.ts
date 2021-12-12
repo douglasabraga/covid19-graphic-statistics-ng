@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Covid19 } from '../covid19.model';
+import { Country } from '../country';
+import { Covid19 } from '../covid19';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,21 @@ export class Covid19Service {
 
   constructor(private http: HttpClient) { }
 
-  getStatisticsCovid19ByCountry(country: string): Observable<Covid19[]> {
+  getCountries(): Observable<Country[]> {
     return this.http
-      .get<Covid19[]>(`${this.API}/country/${country}?from=2020-06-28T00:00:00Z&to=2020-06-28T00:00:01Z`)
+      .get<Country[]>(`${this.API}/countries`)
   }
 
-  getStatisticsCovid19ByCountryByDate(country: string, date: string): Observable<Covid19[]> {
+  getStatisticsCovid19ByCountry(country: string): Observable<Covid19> {
     return this.http
-      .get<Covid19[]>(`${this.API}/country/${country}?from=${date}T00:00:00Z&to=${date}T00:00:01Z`)
+      .get<Covid19>(`${this.API}/country/${country}?from=2020-06-28T00:00:00Z&to=2020-06-28T00:00:01Z`)
+  }
+
+  getStatisticsCovid19ByCountryByDate(country: string, date: string): Observable<Covid19> {
+    return this.http
+      .get<Covid19>(`${this.API}/country/${country}?from=${date}T00:00:00Z&to=${date}T00:00:01Z`)
+      .pipe(
+        map((item: Covid19) => item[0])
+      )
   }
 }
