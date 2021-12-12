@@ -1,5 +1,4 @@
-<div class="container">
-  <br><br><br>
+<div class="container" id="filter">
   <div class="row justify-content-center">
     <div class="col-12 col-md-12 col-lg-10">
       <div class="card ">
@@ -42,6 +41,13 @@
           </table>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="alertMessage">
+  <div class="row justify-content-center">
+    <div class="col-auto mt-3">
+      <ngb-alert type="danger" (closed)="closeAlert()">{{ alertMessage }}</ngb-alert>
     </div>
   </div>
 </div>

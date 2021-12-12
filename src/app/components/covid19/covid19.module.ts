@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Covid19ListComponent } from './covid19-list/covid19-list.component';
 import { FormsModule } from '@angular/forms';
 import { Covid19GraphicComponent } from './covid19-graphic/covid19-graphic.component';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { Covid19GraphicComponent } from './covid19-graphic/covid19-graphic.compo
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgbAlertModule
   ],
   providers:[]
 })

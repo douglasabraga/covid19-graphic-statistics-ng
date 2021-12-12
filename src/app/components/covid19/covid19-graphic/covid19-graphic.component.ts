@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Covid19Service } from '../services/covid19.service';
 import { Covid19Filter } from '../covid19-filter';
-import { Covid19 } from '../covid19.model'
+import { Covid19 } from '../covid19'
+import { Country } from '../country';
 import { Subscription } from 'rxjs';
 import { format } from 'date-fns';
 import Chart from 'chart.js/auto';
@@ -14,38 +15,48 @@ import Chart from 'chart.js/auto';
 export class Covid19GraphicComponent implements OnInit, OnDestroy {
   @ViewChild('canvasGraph', { static: true }) canvasGraph: ElementRef;
 
-  public filter: Covid19Filter = new Covid19Filter();
-  public covid19: Covid19;
-  private subscription: Subscription;
-  private myChart: Chart;
+  filter: Covid19Filter = new Covid19Filter();
+  covid19: Covid19;
+  subscription: Subscription;
+  myChart: Chart;
+  countries: Country[];
+  alertMessage: string = ''
 
   constructor(private covid19Service: Covid19Service) { }
 
   ngOnInit(): void {
-    this.filter.Date = this.formatCurrentDate()
+    this.covid19Service.getCountries().subscribe({
+      next: result => {
+        console.log(result)
+        this.countries = [];
+        this.countries = result
+      }
+    })
   }
 
   onSearch(): void {
-
-    this.covid19 = null;
-    this.filter.Country = 'brazil'
-
-    this.subscription = this.covid19Service
-      .getStatisticsCovid19ByCountryByDate(
-        this.filter.Country, this.filter.Date
-      ).subscribe({
-        next: (result) => {
-          if (result[0]) {
-            this.covid19 = result[0]
-            this.montarGrafico()
-          }
-        },
-        error: (e) => console.error(e),
-      })
+    this.checkDateFilled()
+    this.subscription = this.covid19Service.getStatisticsCovid19ByCountryByDate(
+      'brazil', this.filter.Date
+    ).subscribe({
+      next: (result) => {
+        console.log(result)
+        if (result) {
+          this.covid19 = result
+          this.assembleChart()
+          this.closeAlert()
+        } else {
+          this.resetAlert('Nothing was found!')
+        }
+      },
+      error: (e) => {
+        console.error(e)
+      },
+    })
   }
 
-  montarGrafico(): void {
-    if (this.myChart) this.myChart.destroy();
+  assembleChart(): void {
+    this.chartDestroy();
     this.myChart = new Chart(this.canvasGraph.nativeElement.getContext('2d'), {
       type: 'bar',
       data: {
@@ -85,13 +96,28 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     });
   }
 
+  checkDateFilled() {
+    if (!this.filter.Date) this.filter.Date = this.formatCurrentDate()
+  }
+
   formatCurrentDate(): string {
-    return format(new Date, 'yyyy-MM-dd')
+    return format(new Date(), 'yyyy-MM-dd')
+  }
+
+  closeAlert() {
+    this.alertMessage = ''
+  }
+
+  resetAlert(message: string) {
+    this.alertMessage = message
+  }
+
+  chartDestroy(): void {
+    if (this.myChart) this.myChart.destroy();
   }
 
   ngOnDestroy(): void {
-    if (this.subscription)
-      this.subscription.unsubscribe()
+    if (this.subscription) this.subscription.unsubscribe()
   }
 
 }
