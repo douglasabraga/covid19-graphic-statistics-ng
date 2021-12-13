@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Covid19Service } from '../services/covid19.service';
-import { Covid19Filter } from '../covid19-filter';
-import { Covid19 } from '../covid19'
-import { Country } from '../country';
-import { Subscription } from 'rxjs';
+import { Covid19Service } from '../../services/covid19.service';
+import { Country } from '../../models/country';
+import { Observable, Subscription } from 'rxjs';
 import { format } from 'date-fns';
 import Chart from 'chart.js/auto';
+import { Covid19Filter } from 'src/app/modules/covid19/models/covid19-filter';
+import { Covid19 } from 'src/app/modules/covid19/models/covid19';
 
 @Component({
   selector: 'app-covid19-graphic',
@@ -13,44 +13,57 @@ import Chart from 'chart.js/auto';
   styleUrls: ['./covid19-graphic.component.scss']
 })
 export class Covid19GraphicComponent implements OnInit, OnDestroy {
-  @ViewChild('canvasGraph', { static: true }) canvasGraph: ElementRef;
+  @ViewChild('canvasGraph', { static: true }) canvasGraph: ElementRef
 
-  filter: Covid19Filter = new Covid19Filter();
-  covid19: Covid19;
-  subscription: Subscription;
-  myChart: Chart;
-  countries: Country[];
+  filter: Covid19Filter
+  covid19: Covid19
+  subscription: Subscription
+  myChart: Chart
+  countries: Country[]
   alertMessage: string = ''
+  countries$: Observable<Country[]>
 
   constructor(private covid19Service: Covid19Service) { }
 
   ngOnInit(): void {
-    this.covid19Service.getCountries().subscribe({
-      next: result => {
-        console.log(result)
-        this.countries = [];
-        this.countries = result
-      }
-    })
+    this.filter = new Covid19Filter()
+    this.countries$ = this.covid19Service.getCountries()
+  }
+
+  validateDateSearch(): void {
+    this.checkDateFilled()
+
+    if (this.filter.Date > this.formatCurrentDate()) {
+      this.resetAlert('A Data deverá ser menor ou igual a Data atual!')
+      return
+    }
+
+    if (!this.filter.CountrySlug) {
+      this.resetAlert('O país deverá ser informado!')
+      return
+    }
+
+    this.onSearch()
   }
 
   onSearch(): void {
-    this.checkDateFilled()
+    console.log(this.filter.CountrySlug)
     this.subscription = this.covid19Service.getStatisticsCovid19ByCountryByDate(
-      'brazil', this.filter.Date
+      this.filter.CountrySlug, this.filter.Date
     ).subscribe({
-      next: (result) => {
+      next: (result: Covid19) => {
         console.log(result)
         if (result) {
           this.covid19 = result
           this.assembleChart()
           this.closeAlert()
-        } else {
-          this.resetAlert('Nothing was found!')
+          return
         }
+        this.resetAlert('Nenhum dado foi encontrado')
       },
       error: (e) => {
         console.error(e)
+        this.resetAlert('Houve algum erro inesperado no servidor!')
       },
     })
   }
@@ -61,7 +74,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
       type: 'bar',
       data: {
         labels: [
-          `${this.filter.Country} - ${format(new Date(this.filter.Date), 'dd/MM/yyyy')}`
+          `${format(new Date(this.filter.Date), 'dd/MM/yyyy')}`
         ],
         datasets: [{
           label: 'Confirmed',
@@ -96,7 +109,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     });
   }
 
-  checkDateFilled() {
+  checkDateFilled(): void {
     if (!this.filter.Date) this.filter.Date = this.formatCurrentDate()
   }
 
@@ -104,11 +117,11 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     return format(new Date(), 'yyyy-MM-dd')
   }
 
-  closeAlert() {
+  closeAlert(): void {
     this.alertMessage = ''
   }
 
-  resetAlert(message: string) {
+  resetAlert(message: string): void {
     this.alertMessage = message
   }
 

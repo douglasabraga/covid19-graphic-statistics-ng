@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12 col-lg-10">
+      <div class="card ">
+        <div class="card-header text-center p-1">
+          <h2 class="text-dark">Filtro</h2>
+        </div>
+        <form>
+          <div class="card-body row no-gutters align-items-center">
+            <label>Data:</label>
+            <div class="col">
+              <input class="form-control form-control-sm form-control-borderless ml-2" [(ngModel)]="filter.Date"
+                name="date" type="date">
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-sm btn-success ml-4" (click)="validateDateSearch()">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="alertMessage">
+  <div class="row justify-content-center">
+    <div class="col-auto mt-3">
+      <ngb-alert type="danger" (closed)="closeAlert()">{{ alertMessage }}</ngb-alert>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-12 col-lg-10">
+      <div class="card mt-3">
+        <div class="card-header text-center p-1">
+          <h2 class="text-dark">Status</h2>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover table-striped table-sm">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">País</th>
+                <th scope="col" class="text-center">Confirmed</th>
+                <th scope="col" class="text-center">Mortos</th>
+                <th scope="col" class="text-center">Recovered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let country of covid19">
+                <td class="text-center">{{ country.Country }}</td>
+                <td class="text-center">{{ country.Confirmed }}</td>
+                <td class="text-center">{{ country.Deaths }}</td>
+                <td class="text-center">{{ country.Recovered }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
