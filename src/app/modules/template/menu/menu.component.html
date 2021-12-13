@@ -1,16 +1,16 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-    <a class="navbar-brand" [routerLink]="['/home']">Covid 19</a>
+    <a class="navbar-brand" [routerLink]="['/covid19/list']">Covid 19</a>
     <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
       &#9776;
     </button>
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/home']">List</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/covid19/list']">Lista</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/graphic']">Graphic</a>
+          <a class="nav-link" routerLinkActive="active" [routerLink]="['/covid19/graphic']">Gráfico</a>
         </li>
       </ul>
     </div>
