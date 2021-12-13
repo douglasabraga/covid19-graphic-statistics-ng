@@ -28,6 +28,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filter = new Covid19Filter()
     this.countries$ = this.covid19Service.getCountries()
+    this.filter.CountrySlug = 'brazil'
   }
 
   validateDateSearch(): void {
