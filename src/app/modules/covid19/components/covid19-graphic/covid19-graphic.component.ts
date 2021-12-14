@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import Chart from 'chart.js/auto';
 import { Covid19Filter } from 'src/app/modules/covid19/models/covid19-filter';
 import { Covid19 } from 'src/app/modules/covid19/models/covid19';
+import { ToastService } from '../../shared/toast/toast.service';
 
 @Component({
   selector: 'app-covid19-graphic',
@@ -20,10 +21,12 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   subscription: Subscription
   myChart: Chart
   countries: Country[]
-  alertMessage: string = ''
   countries$: Observable<Country[]>
 
-  constructor(private covid19Service: Covid19Service) { }
+  constructor(
+    private covid19Service: Covid19Service,
+    public toastService: ToastService
+  ) { }
 
   ngOnInit(): void {
     this.filter = new Covid19Filter()
@@ -34,13 +37,8 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   validateDateSearch(): void {
     this.checkDateFilled()
 
-    if (this.filter.Date > this.formatCurrentDate()) {
-      this.resetAlert('A Data deverá ser menor ou igual a Data atual!')
-      return
-    }
-
-    if (!this.filter.CountrySlug) {
-      this.resetAlert('O país deverá ser informado!')
+    if (this.compareDates(this.filter.Date)) {
+      this.showMessageDanger('A Data deverá ser menor ou igual a Data atual!')
       return
     }
 
@@ -57,14 +55,13 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
         if (result) {
           this.covid19 = result
           this.assembleChart()
-          this.closeAlert()
           return
         }
-        this.resetAlert('Nenhum dado foi encontrado')
+        this.showMessageDanger('Nenhum dado foi encontrado!')
       },
       error: (e) => {
         console.error(e)
-        this.resetAlert('Houve algum erro inesperado no servidor!')
+        this.showMessageDanger('Houve um erro inesperado no servidor!')
       },
     })
   }
@@ -75,30 +72,29 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
       type: 'bar',
       data: {
         labels: [
-          `${format(new Date(this.filter.Date), 'dd/MM/yyyy')}`
+          format(new Date(this.filter.Date), 'dd/MM/yyyy')
         ],
         datasets: [{
-          label: 'Confirmed',
-          data: [this.covid19.Confirmed],
+          label: 'Infectados',
+          data: [this.covid19.Active],
           backgroundColor: [
-            'rgb(255, 99, 132)',
+            this.getColorChart('active')
           ]
         },
         {
-          label: 'Deaths',
-          data: [this.covid19.Deaths],
-          backgroundColor: [
-            'rgb(54, 162, 235)',
-          ]
-        },
-        {
-          label: 'Recovered',
+          label: 'Curados',
           data: [this.covid19.Recovered],
           backgroundColor: [
-            'rgb(255, 205, 86)'
+            this.getColorChart('recovered')
+          ]
+        },
+        {
+          label: 'Óbitos',
+          data: [this.covid19.Deaths],
+          backgroundColor: [
+            this.getColorChart('deaths')
           ]
         }]
-
       },
       options: {
         scales: {
@@ -110,6 +106,15 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     });
   }
 
+  getColorChart(colorChart: string) {
+    let color = {
+      'active': 'rgb(255, 205, 86)',
+      'recovered': 'rgb(54, 162, 235)',
+      'deaths': 'rgb(255, 99, 132)'
+    }
+    return color[colorChart]
+  }
+
   checkDateFilled(): void {
     if (!this.filter.Date) this.filter.Date = this.formatCurrentDate()
   }
@@ -118,12 +123,15 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     return format(new Date(), 'yyyy-MM-dd')
   }
 
-  closeAlert(): void {
-    this.alertMessage = ''
+  compareDates(date: string) {
+    const parts = date.split('-').map(item => Number(item))
+    const today = new Date()
+    const dateCovert = new Date(parts[0], parts[1] - 1, parts[2])
+    return dateCovert > today
   }
 
-  resetAlert(message: string): void {
-    this.alertMessage = message
+  showMessageDanger(alertMessage: string) {
+    this.toastService.show(alertMessage, { classname: 'bg-danger text-light', delay: 3000 });
   }
 
   chartDestroy(): void {

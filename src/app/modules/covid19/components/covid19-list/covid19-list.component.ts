@@ -4,6 +4,7 @@ import { Observable, Subscription, zip } from 'rxjs';
 import { format } from 'date-fns';
 import { Covid19Filter } from 'src/app/modules/covid19/models/covid19-filter';
 import { Covid19 } from 'src/app/modules/covid19/models/covid19';
+import { ToastService } from 'src/app/modules/covid19/shared/toast/toast.service';
 @Component({
   selector: 'app-covid19-list',
   templateUrl: './covid19-list.component.html',
@@ -12,37 +13,45 @@ import { Covid19 } from 'src/app/modules/covid19/models/covid19';
 export class Covid19ListComponent implements OnInit, OnDestroy {
   covid19: Covid19[]
   subscription: Subscription
-  filter: Covid19Filter = new Covid19Filter()
+  filter: Covid19Filter
   private readonly COUNTRIES_SLUG: string[] = ['mexico', 'south-africa', 'brazil', 'cuba', 'egypt']
-  alertMessage: string = ''
 
-  constructor(private covid19Service: Covid19Service) { }
+  constructor(
+    private covid19Service: Covid19Service,
+    public toastService: ToastService
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.filter = new Covid19Filter()
+  }
 
   validateDateSearch(): void {
     this.checkDateFilled()
-    if (this.filter.Date > this.formatCurrentDate()) {
-      this.resetAlert('A Data deverá ser menor ou igual a Data atual!')
+    debugger
+    if (this.compareDates(this.filter.Date)) {  
+      this.showMessageDanger('A Data deverá ser menor ou igual a Data atual!')
       return
     }
     this.onSearch()
+  }
+
+  showMessageDanger(alertMessage: string) {
+    this.toastService.show(alertMessage, { classname: 'bg-danger text-light', delay: 3000 });
   }
 
   onSearch(): void {
     this.subscription = this.getMultipleRequisitions().subscribe({
       next: (result: Covid19[]) => {
         if (result[0] === undefined) {
-          this.resetAlert('Nenhum dado foi encontrado!')
+          this.showMessageDanger('Nenhum dado foi encontrado!')
           return
         }
         console.log(result)
         this.covid19 = result;
-        this.closeAlert()
       },
       error: (e) => {
         console.error(e)
-        this.resetAlert('Houve algum erro inesperado no servidor!')
+        this.showMessageDanger('Houve um erro inesperado no servidor!')
       }
     })
   }
@@ -65,12 +74,11 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
     return format(new Date(), 'yyyy-MM-dd')
   }
 
-  closeAlert() {
-    this.alertMessage = ''
-  }
-
-  resetAlert(message: string) {
-    this.alertMessage = message
+  compareDates(date: string) {
+    const parts = date.split('-').map(item => Number(item))
+    const today = new Date()
+    const dateCovert = new Date(parts[0], parts[1] - 1, parts[2])
+    return dateCovert > today
   }
 
   ngOnDestroy(): void {
