@@ -1,27 +1,43 @@
-# FrFrontendChallenge
+# Projeto FR Frontend Challenge
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
+Este projeto foi criado com o [Angular CLI](https://github.com/angular/angular-cli) versão 13.0.4.
 
-## Development server
+## Escopo
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Utilizar o framework Angular em sua versão 2 ou superior, sendo de preferência a mais recente para desenvolver um sistema com dois modos de visualização de estatísticas acerca do COVID-19.
 
-## Code scaffolding
+- O primeiro modo sendo em tabela, com no mínimo 5 e no máximo 10 países escolhidos por você, tendo como colunas o nome do país, número de infectados, número de curados e quantidade de óbitos. É esperado que se tenha a opção de selecionar ou não uma data específica para visualização das informações, no caso do não preenchimento, utilizar a data atual. E um botão que quando clicado atualize os dados da tabela.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- O segundo modo é um gráfico de sua escolha (pizza, colunas, etc.) com apenas informações sobre 1 país. Este país será escolhido pelo usuário, porém, você pode decidir quais opções serão selecionáveis. Este gráfico conterá 3 índices: número de infectados, número de curados e número de óbitos. É esperado que se tenha a opção de selecionar ou não uma data específica para visualização das informações, no caso do não preenchimento, utilizar a data atual. E um botão que quando clicado atualize os dados do gráfico.
+- O usuário deverá escolher o modo de exibição da informação, a visualização de ambos os modos deverão ser responsiva, ou seja, passível de visualização em diferentes tamanhos de tela sem comprometer o layout.
 
-## Build
+## Tecnologias
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- [Angular CLI 13.0.4](https://github.com/angular/angular-cli)
+- [Ng Bootstrap 10.0.0](https://ng-bootstrap.github.io/#/home)
+- [Bootstrap 4.5.0](https://getbootstrap.com/docs/4.5/getting-started/download/)
 
-## Running unit tests
+## Bibliotecas externas
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- [Chart.js](https://www.chartjs.org/)
+- [date-fns](https://date-fns.org/)
 
-## Running end-to-end tests
+## API Externa
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- [API da COVID19](https://documenter.getpostman.com/view/10808728/SzS8rjbc)
 
-## Further help
+## Como instalar
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Baixe ou clone este repositório usando `https://github.com/douglasabraga/fr-front-end-challenge.git`;
+- Dentro do diretório, instale as dependências usando `npm install`.
+
+## Como executar
+
+Execute `ng serve` ou `npm start` para executar a versão de desenvolvimento. Depois acesse `http://localhost:4200/`. O aplicativo será recarregado automaticamente se você alterar qualquer um dos arquivos de origem.
+
+## Como compilar/construir
+
+Execute `ng build` ou `npm run build` para buildar o projeto. Para buildar a versão de produção adicione a flag `--prod`. Os arquivos serão armazenados do diretório `dist`.
+
+## Dúvidas
+Caso há alguma dúvida em relação a este repositório, envie para douglasabraga@outlook.com.
