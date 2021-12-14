@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Covid19Module } from './modules/covid19/covid19.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TemplateModule } from './modules/template/template.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TemplateModule } from './modules/template/template.module';
     Covid19Module,
     TemplateModule,
     HttpClientModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
