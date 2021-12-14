@@ -2,11 +2,12 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Covid19Service } from '../../services/covid19.service';
 import { Country } from '../../models/country';
 import { Observable, Subscription } from 'rxjs';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import Chart from 'chart.js/auto';
 import { Covid19Filter } from 'src/app/modules/covid19/models/covid19-filter';
 import { Covid19 } from 'src/app/modules/covid19/models/covid19';
-import { ToastService } from '../../shared/toast/toast.service';
+import { ToastService } from 'src/app/modules/shared/toast/toast.service';
+import { MessagesToast } from 'src/app/modules/shared/enums/messages-toast.enum';
 
 @Component({
   selector: 'app-covid19-graphic',
@@ -38,7 +39,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     this.checkDateFilled()
 
     if (this.compareDates(this.filter.Date)) {
-      this.showMessageDanger('A Data deverá ser menor ou igual a Data atual!')
+      this.showMessageDanger(MessagesToast.dateGreaterToday)
       return
     }
 
@@ -57,11 +58,11 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
           this.assembleChart()
           return
         }
-        this.showMessageDanger('Nenhum dado foi encontrado!')
+        this.showMessageDanger(MessagesToast.undefined)
       },
       error: (e) => {
         console.error(e)
-        this.showMessageDanger('Houve um erro inesperado no servidor!')
+        this.showMessageDanger(MessagesToast.genericError)
       },
     })
   }
@@ -72,7 +73,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
       type: 'bar',
       data: {
         labels: [
-          format(new Date(this.filter.Date), 'dd/MM/yyyy')
+          format(addDays(new Date(this.filter.Date), 1), 'dd/MM/yyyy')
         ],
         datasets: [{
           label: 'Infectados',

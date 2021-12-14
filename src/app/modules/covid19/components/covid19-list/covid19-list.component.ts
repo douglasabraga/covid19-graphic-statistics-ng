@@ -4,7 +4,8 @@ import { Observable, Subscription, zip } from 'rxjs';
 import { format } from 'date-fns';
 import { Covid19Filter } from 'src/app/modules/covid19/models/covid19-filter';
 import { Covid19 } from 'src/app/modules/covid19/models/covid19';
-import { ToastService } from 'src/app/modules/covid19/shared/toast/toast.service';
+import { ToastService } from 'src/app/modules/shared/toast/toast.service';
+import { MessagesToast } from 'src/app/modules/shared/enums/messages-toast.enum'
 @Component({
   selector: 'app-covid19-list',
   templateUrl: './covid19-list.component.html',
@@ -27,9 +28,8 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
 
   validateDateSearch(): void {
     this.checkDateFilled()
-    debugger
-    if (this.compareDates(this.filter.Date)) {  
-      this.showMessageDanger('A Data deverá ser menor ou igual a Data atual!')
+    if (this.compareDates(this.filter.Date)) {
+      this.showMessageDanger(MessagesToast.dateGreaterToday)
       return
     }
     this.onSearch()
@@ -43,7 +43,7 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
     this.subscription = this.getMultipleRequisitions().subscribe({
       next: (result: Covid19[]) => {
         if (result[0] === undefined) {
-          this.showMessageDanger('Nenhum dado foi encontrado!')
+          this.showMessageDanger(MessagesToast.undefined)
           return
         }
         console.log(result)
@@ -51,7 +51,7 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
       },
       error: (e) => {
         console.error(e)
-        this.showMessageDanger('Houve um erro inesperado no servidor!')
+        this.showMessageDanger(MessagesToast.genericError)
       }
     })
   }
