@@ -1,58 +1,37 @@
 <div class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-12 col-lg-10">
-      <div class="card">
-        <div class="card-header text-center p-1">
-          <h2 class="text-dark">Filtro</h2>
-        </div>
-        <div class="card-body no-gutters align-items-center">
-          <form>
-            <div class="form-row aling-itens-end">
-              <div class="form-group">
-                <div class="col-sm-12 col-md-12 col-lg-12">
-                  <label class="ml-2">País:</label>
-                  <select class="form-control form-control-sm form-control-borderless ml-2"
-                    [(ngModel)]="filter.CountrySlug" name="country">
-                    <option *ngFor="let country of countries$ | async" [value]="country.Slug">{{ country.Country }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-auto">
-                  <label class="ml-2">Data:</label>
-                  <input class="form-control form-control-sm form-control-borderless ml-2" [(ngModel)]="filter.Date"
-                    name="date" type="date">
-                </div>
-              </div>
-            </div>
-          </form>
-          <div class="col-auto">
-            <button class="btn btn-sm btn-success ml-3" (click)="validateDateSearch()">Search</button>
+  <div class="card">
+    <div class="card-header text-center p-1">
+      <h3 class="text-dark">Filtro</h3>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-sm-4 col-md-4 col-lg-4">
+            <label>Data:</label>
+            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" name="date"
+              type="date">
+          </div>
+          <div class="form-group col-sm-8 col-md-8 col-lg-8">
+            <label>País:</label>
+            <select class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.CountrySlug"
+              name="country">
+              <option *ngFor="let country of countries$ | async" [value]="country.Slug">{{ country.Country }}</option>
+            </select>
           </div>
         </div>
-      </div>
+        <button class="btn btn-sm btn-success" type="submit" (click)="validateDateSearch()">Consultar</button>
+      </form>
     </div>
   </div>
 </div>
-<div class="container" *ngIf="alertMessage">
-  <div class="row justify-content-center">
-    <div class="col-auto mt-3">
-      <ngb-alert type="danger" (closed)="closeAlert()">{{ alertMessage }}</ngb-alert>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<div class="container ">
+  <div class="card mt-3">
+    <div class="card-header text-center p-1">
+      <h3 class="text-dark">Gráfico</h3>
     </div>
-  </div>
-</div>
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-12 col-lg-10">
-      <div class="card mt-3">
-        <div class="card-header text-center p-1">
-          <h2 class="text-dark">Gráfico - Covid19</h2>
-        </div>
-        <div class="card-body">
-          <canvas #canvasGraph></canvas>
-        </div>
-      </div>
+    <div class="card-body">
+      <canvas #canvasGraph></canvas>
     </div>
   </div>
 </div>
