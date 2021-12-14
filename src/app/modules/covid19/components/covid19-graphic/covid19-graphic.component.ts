@@ -11,8 +11,7 @@ import { MessagesToast } from 'src/app/modules/shared/enums/messages-toast.enum'
 
 @Component({
   selector: 'app-covid19-graphic',
-  templateUrl: './covid19-graphic.component.html',
-  styleUrls: ['./covid19-graphic.component.scss']
+  templateUrl: './covid19-graphic.component.html'
 })
 export class Covid19GraphicComponent implements OnInit, OnDestroy {
   @ViewChild('canvasGraph', { static: true }) canvasGraph: ElementRef
@@ -26,7 +25,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
 
   constructor(
     private covid19Service: Covid19Service,
-    public toastService: ToastService
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -39,7 +38,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
     this.checkDateFilled()
 
     if (this.compareDates(this.filter.Date)) {
-      this.showMessageDanger(MessagesToast.dateGreaterToday)
+      this.showMessageDanger(MessagesToast.DATE_GREATER_TODAY)
       return
     }
 
@@ -58,17 +57,17 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
           this.assembleChart()
           return
         }
-        this.showMessageDanger(MessagesToast.undefined)
+        this.showMessageDanger(MessagesToast.NOT_FOUND)
       },
       error: (e) => {
         console.error(e)
-        this.showMessageDanger(MessagesToast.genericError)
+        this.showMessageDanger(MessagesToast.GENERIC_ERROR)
       },
     })
   }
 
   assembleChart(): void {
-    this.chartDestroy();
+    this.chartDestroy()
     this.myChart = new Chart(this.canvasGraph.nativeElement.getContext('2d'), {
       type: 'bar',
       data: {
@@ -104,7 +103,7 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
           }
         }
       }
-    });
+    })
   }
 
   getColorChart(colorChart: string) {
@@ -132,11 +131,11 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   }
 
   showMessageDanger(alertMessage: string) {
-    this.toastService.show(alertMessage, { classname: 'bg-danger text-light', delay: 3000 });
+    this.toastService.show(alertMessage, { classname: 'bg-danger text-light', delay: 3000 })
   }
 
   chartDestroy(): void {
-    if (this.myChart) this.myChart.destroy();
+    if (this.myChart) this.myChart.destroy()
   }
 
   ngOnDestroy(): void {

@@ -8,8 +8,7 @@ import { ToastService } from 'src/app/modules/shared/toast/toast.service';
 import { MessagesToast } from 'src/app/modules/shared/enums/messages-toast.enum'
 @Component({
   selector: 'app-covid19-list',
-  templateUrl: './covid19-list.component.html',
-  styleUrls: ['./covid19-list.component.scss']
+  templateUrl: './covid19-list.component.html'
 })
 export class Covid19ListComponent implements OnInit, OnDestroy {
   covid19: Covid19[]
@@ -19,7 +18,7 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
 
   constructor(
     private covid19Service: Covid19Service,
-    public toastService: ToastService
+    private toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -29,29 +28,29 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
   validateDateSearch(): void {
     this.checkDateFilled()
     if (this.compareDates(this.filter.Date)) {
-      this.showMessageDanger(MessagesToast.dateGreaterToday)
+      this.showMessageDanger(MessagesToast.DATE_GREATER_TODAY)
       return
     }
     this.onSearch()
   }
 
   showMessageDanger(alertMessage: string) {
-    this.toastService.show(alertMessage, { classname: 'bg-danger text-light', delay: 3000 });
+    this.toastService.show(alertMessage, { classname: 'bg-danger text-light', delay: 3000 })
   }
 
   onSearch(): void {
     this.subscription = this.getMultipleRequisitions().subscribe({
       next: (result: Covid19[]) => {
         if (result[0] === undefined) {
-          this.showMessageDanger(MessagesToast.undefined)
+          this.showMessageDanger(MessagesToast.NOT_FOUND)
           return
         }
         console.log(result)
-        this.covid19 = result;
+        this.covid19 = result
       },
       error: (e) => {
         console.error(e)
-        this.showMessageDanger(MessagesToast.genericError)
+        this.showMessageDanger(MessagesToast.GENERIC_ERROR)
       }
     })
   }
