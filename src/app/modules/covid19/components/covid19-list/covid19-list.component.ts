@@ -45,7 +45,6 @@ export class Covid19ListComponent implements OnInit, OnDestroy {
           this.showMessageDanger(MessagesToast.NOT_FOUND)
           return
         }
-        console.log(result)
         this.covid19 = result
       },
       error: (e) => {

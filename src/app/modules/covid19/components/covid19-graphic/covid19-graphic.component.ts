@@ -46,12 +46,10 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   }
 
   onSearch(): void {
-    console.log(this.filter.CountrySlug)
     this.subscription = this.covid19Service.getStatisticsCovid19ByCountryByDate(
       this.filter.CountrySlug, this.filter.Date
     ).subscribe({
       next: (result: Covid19) => {
-        console.log(result)
         if (result) {
           this.covid19 = result
           this.assembleChart()
