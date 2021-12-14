@@ -4,13 +4,13 @@ import { Injectable, TemplateRef } from '@angular/core';
     providedIn: 'root'
 })
 export class ToastService {
-    toasts: any[] = [];
+    toasts: any[] = []
 
     show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
-        this.toasts.push({ textOrTpl, ...options });
+        this.toasts.push({ textOrTpl, ...options })
     }
 
     remove(toast) {
-        this.toasts = this.toasts.filter(t => t !== toast);
+        this.toasts = this.toasts.filter(t => t !== toast)
     }
 }

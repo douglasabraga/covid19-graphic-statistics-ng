@@ -1,4 +1,4 @@
 export interface Country {
-    Country: string;
-    Slug: string;
+    Country: string
+    Slug: string
 }
