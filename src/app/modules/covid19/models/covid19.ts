@@ -1,6 +1,6 @@
-export class Covid19 {
+export interface Covid19 {
     Country: string;
-    Confirmed: number;
+    Active: number;
     Deaths: number;
     Recovered: number;
 }
