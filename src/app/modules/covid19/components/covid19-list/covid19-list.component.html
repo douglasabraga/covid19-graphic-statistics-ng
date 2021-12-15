@@ -7,9 +7,9 @@
       <form>
         <div class="form-row">
           <div class="form-group col-lg-6 col-md-8 col-sm-12">
-            <label>Data:</label>
-            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" name="date"
-              type="date">
+            <label for="date">Data:</label>
+            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" id="date"
+              name="date" type="date">
           </div>
         </div>
         <button class="btn btn-sm btn-success" type="submit" (click)="validateDateSearch()">Consultar</button>
