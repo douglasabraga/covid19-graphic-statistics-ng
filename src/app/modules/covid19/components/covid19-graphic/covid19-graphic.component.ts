@@ -6,8 +6,9 @@ import { format, addDays } from 'date-fns';
 import Chart from 'chart.js/auto';
 import { Covid19Filter } from 'src/app/modules/covid19/models/covid19-filter';
 import { Covid19 } from 'src/app/modules/covid19/models/covid19';
-import { ToastService } from 'src/app/modules/shared/toast/toast.service';
+import { ToastService } from 'src/app/modules/shared/services/toast.service';
 import { MessagesToast } from 'src/app/modules/shared/enums/messages-toast.enum';
+import { UtilDateService } from 'src/app/modules/shared/services/util-dates.service';
 
 @Component({
   selector: 'app-covid19-graphic',
@@ -24,7 +25,8 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
 
   constructor(
     private covid19Service: Covid19Service,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private utilDateService: UtilDateService
   ) { }
 
   ngOnInit(): void {
@@ -34,9 +36,10 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   }
 
   validateDateSearch(): void {
-    this.checkDateFilled()
+    if(!this.filter.Date)
+      this.filter.Date = this.utilDateService.formatCurrentDate()
 
-    if (this.compareDates(this.filter.Date)) {
+    if (this.utilDateService.compareDates(this.filter.Date)) {
       this.showMessageDanger(MessagesToast.DATE_GREATER_TODAY)
       return
     }
@@ -110,21 +113,6 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
       'deaths': 'rgb(255, 99, 132)'
     }
     return color[colorChart]
-  }
-
-  checkDateFilled(): void {
-    if (!this.filter.Date) this.filter.Date = this.formatCurrentDate()
-  }
-
-  formatCurrentDate(): string {
-    return format(new Date(), 'yyyy-MM-dd')
-  }
-
-  compareDates(date: string) {
-    const parts = date.split('-').map(item => Number(item))
-    const today = new Date()
-    const dateCovert = new Date(parts[0], parts[1] - 1, parts[2])
-    return dateCovert > today
   }
 
   showMessageDanger(alertMessage: string) {
