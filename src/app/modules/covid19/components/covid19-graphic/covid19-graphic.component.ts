@@ -20,7 +20,6 @@ export class Covid19GraphicComponent implements OnInit, OnDestroy {
   covid19: Covid19
   subscription: Subscription
   myChart: Chart
-  countries: Country[]
   countries$: Observable<Country[]>
 
   constructor(
