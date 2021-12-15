@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/covid19/list', pathMatch: 'full' },
   {
     path: 'covid19',
     loadChildren: () => import('./modules/covid19/covid19.module')

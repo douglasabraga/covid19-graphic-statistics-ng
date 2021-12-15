@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="card">
+  <section class="card">
     <div class="card-header text-center p-1">
       <h3 class="text-dark">Filtro</h3>
     </div>
@@ -7,21 +7,21 @@
       <form>
         <div class="form-row">
           <div class="form-group col-lg-6 col-md-8 col-sm-12">
-            <label>Data:</label>
-            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" name="date"
-              type="date">
+            <label for="date">Data:</label>
+            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" id="date"
+              name="date" type="date">
           </div>
         </div>
         <button class="btn btn-sm btn-success" type="submit" (click)="validateDateSearch()">Consultar</button>
       </form>
     </div>
-  </div>
+  </section>
 </div>
 
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 
 <div class="container">
-  <div class="card mt-3">
+  <section class="card mt-3">
     <div class="card-header text-center p-1">
       <h3 class="text-dark">Lista</h3>
     </div>
@@ -45,5 +45,5 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </section>
 </div>

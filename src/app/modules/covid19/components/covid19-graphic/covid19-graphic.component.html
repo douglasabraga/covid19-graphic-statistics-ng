@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="card">
+  <section class="card">
     <div class="card-header text-center p-1">
       <h3 class="text-dark">Filtro</h3>
     </div>
@@ -7,14 +7,14 @@
       <form>
         <div class="form-row">
           <div class="form-group col-sm-4 col-md-4 col-lg-4">
-            <label>Data:</label>
-            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" name="date"
-              type="date">
+            <label for="date">Data:</label>
+            <input class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.Date" id="date"
+              name="date" type="date">
           </div>
           <div class="form-group col-sm-8 col-md-8 col-lg-8">
-            <label>País:</label>
+            <label for="country">País:</label>
             <select class="form-control form-control-sm form-control-borderless" [(ngModel)]="filter.CountrySlug"
-              name="country">
+              id="country" name="country">
               <option *ngFor="let country of countries$ | async" [value]="country.Slug">{{ country.Country }}</option>
             </select>
           </div>
@@ -22,16 +22,16 @@
         <button class="btn btn-sm btn-success" type="submit" (click)="validateDateSearch()">Consultar</button>
       </form>
     </div>
-  </div>
+  </section>
 </div>
 <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 <div class="container">
-  <div class="card mt-3 mb-5">
+  <section class="card mt-3 mb-5">
     <div class="card-header text-center p-1">
       <h3 class="text-dark">Gráfico</h3>
     </div>
     <div class="card-body">
       <canvas #canvasGraph height="125"></canvas>
     </div>
-  </div>
+  </section>
 </div>
