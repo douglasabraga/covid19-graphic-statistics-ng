@@ -1,4 +1,4 @@
-# Demonstrativo de dados relacionados à COVID19 de 5 países
+# Estatísticas COVID19
 
 Este projeto foi criado com o [Angular CLI](https://github.com/angular/angular-cli) versão 13.0.4.
 
